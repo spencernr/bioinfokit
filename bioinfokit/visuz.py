@@ -155,9 +155,9 @@ class GeneExpression:
         # plot
         assign_values = {col: i for i, col in enumerate(color)}
         color_result_num = [assign_values[i] for i in df['color_add_axy']]
-        assert len(set(color_result_num)) == 3, \
-            'either significant or non-significant genes are missing; try to change lfc_thr or pv_thr to include ' \
-            'both significant and non-significant genes'
+        # assert len(set(color_result_num)) == 3, \
+        #     'either significant or non-significant genes are missing; try to change lfc_thr or pv_thr to include ' \
+        #     'both significant and non-significant genes'
         if theme == 'dark':
             general.dark_bg()
         plt.subplots(figsize=dim)
