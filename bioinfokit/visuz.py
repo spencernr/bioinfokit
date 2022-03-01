@@ -155,6 +155,7 @@ class GeneExpression:
         # plot
         assign_values = {col: i for i, col in enumerate(color)}
         color_result_num = [assign_values[i] for i in df['color_add_axy']]
+        colors_in_set=[x for x in colors if x in set(df['color_add_axy'].tolist())]
         # assert len(set(color_result_num)) == 3, \
         #     'either significant or non-significant genes are missing; try to change lfc_thr or pv_thr to include ' \
         #     'both significant and non-significant genes'
@@ -162,12 +163,12 @@ class GeneExpression:
             general.dark_bg()
         plt.subplots(figsize=dim)
         if plotlegend:
-            s = plt.scatter(df[lfc], df['logpv_add_axy'], c=color_result_num, cmap=ListedColormap(color), alpha=valpha,
+            s = plt.scatter(df[lfc], df['logpv_add_axy'], c=color_result_num, cmap=ListedColormap(colors_in_set), alpha=valpha,
                             s=dotsize, marker=markerdot)
             assert len(legendlabels) == 3, 'legendlabels must be size of 3'
             plt.legend(handles=s.legend_elements()[0], labels=legendlabels, loc=legendpos, bbox_to_anchor=legendanchor)
         else:
-            plt.scatter(df[lfc], df['logpv_add_axy'], c=color_result_num, cmap=ListedColormap(color), alpha=valpha,
+            plt.scatter(df[lfc], df['logpv_add_axy'], c=color_result_num, cmap=ListedColormap(colors_in_set), alpha=valpha,
                         s=dotsize, marker=markerdot)
         if sign_line:
             plt.axhline(y=-np.log10(pv_thr[0]), linestyle='--', color='#7d7d7d', linewidth=1)
