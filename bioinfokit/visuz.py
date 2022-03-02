@@ -136,7 +136,7 @@ class GeneExpression:
                 sign_line=False, gstyle=1, show=False, figtype='png', axtickfontsize=9,
                 axtickfontname="Arial", axlabelfontsize=9, axlabelfontname="Arial", axxlabel=None,
                 axylabel=None, xlm=None, ylm=None, plotlegend=False, legendpos='best',
-                figname='volcano', legendanchor=None,
+                figname='volcano', legendanchor=None, cent_xlm=False,
                 legendlabels=['significant up', 'not significant', 'significant down'], theme=None):
         _x = r'$ log_{2}(Fold Change)$'
         _y = r'$ -log_{10}(P-value)$'
@@ -181,7 +181,17 @@ class GeneExpression:
         if axylabel:
             _y = axylabel
         general.axis_labels(_x, _y, axlabelfontsize, axlabelfontname)
-        general.axis_ticks(xlm, ylm, axtickfontsize, axtickfontname, ar)
+        if cent_xlm: # centers volcano about 0, keeping all data in frame & integer ticks
+            # Find largest x value, round up to nearest int
+            lim=abs(df[lfc]).max().ceil()
+            intvl=1
+            # ensure range is broken into 10 integer ticks.
+            while 2*lim>10*intvl:
+                intvl+=1
+            c_xlm=(-lim, lim, intvl)
+            general.axis_ticks(xlm, ylm, axtickfontsize, axtickfontname, ar)
+        else:
+            general.axis_ticks(xlm, ylm, axtickfontsize, axtickfontname, ar)
         general.get_figure(show, r, figtype, figname, theme)
 
     def involcano(df="dataframe", lfc="logFC", pv="p_values", lfc_thr=(1, 1), pv_thr=(0.05, 0.05), color=("green", "grey", "red"),
