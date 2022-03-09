@@ -183,7 +183,7 @@ class GeneExpression:
         general.axis_labels(_x, _y, axlabelfontsize, axlabelfontname)
         if cent_xlm: # centers volcano about 0, keeping all data in frame & integer ticks
             # Find largest x value, round up to nearest int
-            lim=abs(df[lfc]).max().ceil()
+            lim=np.ceil(abs(df[lfc]).max())
             intvl=1
             # ensure range is broken into 10 integer ticks.
             while 2*lim>10*intvl:
